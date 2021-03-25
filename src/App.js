@@ -4,7 +4,7 @@ import AddTask from "./components/AddTask"
 import {useState } from 'react'
 
 function App() {
-  const name= 'First attempt'
+  const [showAddTask,setShowAddTask]= useState(false)
   const [tasks, setTasks]=useState([
     {
         id: 1,
@@ -27,7 +27,9 @@ function App() {
 ])
 
 const addTask=(task)=>{
-  console.log(task)
+  const id= Math.floor(Math.random()*1000)+1 
+  const newTask= {id, ...task}
+  setTasks([...tasks,newTask])
 }
 
 //figure out how does it work
@@ -41,8 +43,8 @@ const toggleReminder=(id)=>{
 
   return (
     <div className="container">
-      <Header title={name}/>
-      <AddTask onAdd={addTask}/>
+      <Header onAdd={()=>setShowAddTask(!showAddTask)}/>
+      {showAddTask && <AddTask onAdd={addTask}/>}
       {tasks.length>0?<Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder}
       />: "There is no tasks to show"}
     </div>
